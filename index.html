@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocalLift Marketing Questionnaire</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Logo Section */
+        .logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .logo img {
+            width: 120px;
+            height: auto;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .logo img:hover {
+            transform: scale(1.1);
+        }
+
+        /* Heading */
+        h2 {
+            text-align: center;
+            color: #388e3c;
+            margin-bottom: 30px;
+            font-size: 28px;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: #388e3c;
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        /* Progress Bar */
+        #progress-bar {
+            width: 100%;
+            background-color: #f0f0f0;
+            border-radius: 25px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            height: 20px;
+        }
+
+        #progress {
+            height: 100%;
+            width: 0%;
+            background-color: #388e3c;
+            transition: width 0.4s ease;
+        }
+
+        /* Form Steps */
+        .form-step {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        /* Tooltip Styles */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 250px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Position above the icon */
+            left: 50%;
+            margin-left: -125px; /* Center the tooltip */
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Info Icon */
+        .tooltip::after {
+            content: "ℹ️"; /* Info symbol */
+            font-size: 16px;
+            color: #388e3c;
+        }
+
+        /* Form Inputs */
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            border-color: #388e3c;
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .button-group button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            color: #ffffff;
+        }
+
+        .button-group .prev-btn {
+            background-color: #bbbbbb;
+        }
+
+        .button-group .prev-btn:hover {
+            background-color: #999999;
+            transform: translateY(-2px);
+        }
+
+        .button-group .next-btn {
+            background-color: #388e3c;
+        }
+
+        .button-group .next-btn:hover {
+            background-color: #2e7d32;
+            transform: translateY(-2px);
+        }
+
+        .button-group .submit-btn {
+            background-color: #388e3c;
+            width: 100%;
+        }
+
+        .button-group .submit-btn:hover {
+            background-color: #2e7d32;
+            transform: translateY(-2px);
+        }
+
+        /* Required Field Indicator */
+        .required {
+            color: red;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .button-group {
+                flex-direction: column;
+            }
+
+            .button-group button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .button-group button:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        /* Note Styling */
+        .note {
+            font-size: 14px;
+            color: #555555;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Logo Section -->
+    <div class="logo">
+        <!-- Replace 'logo.png' with your actual logo file name -->
+        <img src="logo.png" alt="LocalLift Logo">
+    </div>
+    
+    <h2>LocalLift Marketing Questionnaire</h2>
+    
+    <!-- Progress Bar -->
+    <div id="progress-bar">
+        <div id="progress"></div>
+    </div>
+    
+    <!-- Form -->
+    <form id="questionnaire-form" action="https://formspree.io/f/xeoqdzqo" method="POST">
+        
+        <!-- Step 1 -->
+        <div class="form-step active">
+            <div class="form-group">
+                <label for="about-yourself">1. Can you tell me a little about yourself? <span class="required">*</span>
+                    <span class="tooltip">
+                        <span class="tooltiptext">
+                            <strong>Purpose:</strong> To understand your background and personal connection to your business.<br>
+                            <strong>How it Helps:</strong> Crafting authentic marketing messages that resonate with your target audience.
+                        </span>
+                    </span>
+                </label>
+                <textarea id="about-yourself" name="about-yourself" required placeholder="e.g., I'm Jake, a 16-year-old high school student..."></textarea>
+            </div>
+            <div class="button-group">
+                <button type="button" class="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Step 2 -->
+        <div class="form-step">
+            <div class="form-group">
+                <label for="motivation">2. Why did you decide to start a lawn care business? <span class="required">*</span>
+                    <span class="tooltip">
+                        <span class="tooltiptext">
+                            <strong>Purpose:</strong> To uncover your motivations and inspirations behind starting the business.<br>
+                            <strong>How it Helps:</strong> Highlighting core values and passion in marketing materials to attract like-minded customers.
+                        </span>
+                    </span>
+                </label>
+                <textarea id="motivation" name="motivation" required placeholder="e.g., I love working outdoors and wanted to help my neighbors..."></textarea>
+            </div>
+            <div class="button-group">
+                <button type="button" class="prev-btn">Previous</button>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Step 3 -->
+        <div class="form-step">
+            <div class="form-group">
+                <label for="enjoyment">3. What do you enjoy most about cutting grass and maintaining lawns? <span class="required">*</span>
+                    <span class="tooltip">
+                        <span class="tooltiptext">
+                            <strong>Purpose:</strong> To identify the aspects of your business that you are passionate about.<br>
+                            <strong>How it Helps:</strong> Showcasing dedication and expertise in marketing to attract customers seeking quality and care.
+                        </span>
+                    </span>
+                </label>
+                <textarea id="enjoyment" name="enjoyment" required placeholder="e.g., Seeing the transformation of a yard and making clients happy..."></textarea>
+            </div>
+            <div class="button-group">
+                <button type="button" class="prev-btn">Previous</button>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Step 4 -->
+        <div class="form-step">
+            <div class="form-group">
+                <label for="experience">4. How long have you been providing lawn care services?
+                    <span class="tooltip">
+                        <span class="tooltiptext">
+                            <strong>Purpose:</strong> To gauge your experience level in the industry.<br>
+                            <strong>How it Helps:</strong> Emphasizing experience builds trust and credibility in your marketing efforts.
+                        </span>
+                    </span>
+                </label>
+                <input type="text" id="experience" name="experience" placeholder="e.g., Two summers">
+            </div>
+            <div class="button-group">
+                <button type="button" class="prev-btn">Previous</button>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Step 5 -->
+        <div class="form-step">
+            <div class="form-group">
+                <label for="clients">5. How many clients do you serve each month?
+                    <span class="tooltip">
+                        <span class="tooltiptext">
+                            <strong>Purpose:</strong> To understand the scale and capacity of your operations.<br>
+                            <strong>How it Helps:</strong> Tailoring marketing strategies to support scaling or highlight personalized attention.
+                        </span>
+                    </span>
+                </label>
+                <input type="number" id="clients" name="clients" min="0" placeholder="e.g., 27">
+            </div>
+            <div class="button-group">
+                <button type="button" class="prev-btn">Previous</button>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Step 6 -->
+        <div class="form-step">
+            <div class="form-group">
+                <label for="services">6. What specific services do you offer (e.g., mowing, trimming, weeding, fertilizing)? <span class="required">*</span>
+                    <span class="tooltip">
+                        <span class="tooltiptext">
+                            <strong>Purpose:</strong> To detail the range of services you provide, highlighting any specialties.<br>
+                            <strong>How it Helps:</strong> Creating targeted marketing messages that showcase comprehensive and specialized offerings.
+                        </span>
+                    </span>
+                </label>
+                <textarea id="services" name="services" required placeholder="e.g., Mowing, edging, trimming, eco-friendly fertilizing..."></textarea>
+            </div>
+            <div class="button-group">
+                <button type="button" class="prev-btn">Previous</button>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Step 7 -->
+        <div class="form-step">
+            <div class="form-group">
+                <label for="appreciation">7. What do your clients appreciate most about your service?
+                    <span class="tooltip">
+                        <span class="tooltiptext">
+                            <strong>Purpose:</strong> To identify key strengths and unique selling points from your clients' perspective.<br>
+                            <strong>How it Helps:</strong> Leveraging client testimonials and appreciated aspects in marketing materials can serve as powerful social proof.
+                        </span>
+                    </span>
+                </label>
+                <textarea id="appreciation" name="appreciation" placeholder="e.g., Punctuality, attention to detail, friendly attitude..."></textarea>
+            </div>
+            <div class="button-group">
+                <button type="button" class="prev-btn">Previous</button>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Step 8 -->
+        <div class="form-step">
+            <div class="form-group">
+                <label for="testimonials">8. Do you have any testimonials or feedback from clients that you’d like to share?
+                    <span class="tooltip">
+                        <span class="tooltiptext">
+                            <strong>Purpose:</strong> To collect social proof and positive experiences to use in marketing.<br>
+                            <strong>How it Helps:</strong> Incorporating testimonials enhances your business's reputation and attracts new customers.
+                        </span>
+                    </span>
+                </label>
+                <textarea id="testimonials" name="testimonials" placeholder="e.g., 'Jake did an amazing job on our lawn...'"></textarea>
+            </div>
+            <div class="button-group">
+                <button type="button" class="prev-btn">Previous</button>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Step 9 -->
+        <div class="form-step">
+            <div class="form-group">
+                <label for="new-clients">9. How do you currently find new clients?
+                    <span class="tooltip">
+                        <span class="tooltiptext">
+                            <strong>Purpose:</strong> To understand your existing marketing and client acquisition strategies.<br>
+                            <strong>How it Helps:</strong> Assessing the effectiveness of current channels and exploring opportunities for optimization.
+                        </span>
+                    </span>
+                </label>
+                <textarea id="new-clients" name="new-clients" placeholder="e.g., Word-of-mouth, flyers, social media..."></textarea>
+            </div>
+            <div class="button-group">
+                <button type="button" class="prev-btn">Previous</button>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Step 10 -->
+        <div class="form-step">
+            <div class="form-group">
+                <label for="unique">10. What sets your lawn care service apart from others?
+                    <span class="tooltip">
+                        <span class="tooltiptext">
+                            <strong>Purpose:</strong> To identify your unique selling points and competitive advantages.<br>
+                            <strong>How it Helps:</strong> Differentiating your services in the market to attract customers looking for specific benefits.
+                        </span>
+                    </span>
+                </label>
+                <textarea id="unique" name="unique" placeholder="e.g., Eco-friendly products, exceptional customer service..."></textarea>
+            </div>
+            <div class="button-group">
+                <button type="button" class="prev-btn">Previous</button>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Step 11 -->
+        <div class="form-step">
+            <div class="form-group">
+                <label for="promotions">11. Do you offer any special promotions or discounts?
+                    <span class="tooltip">
+                        <span class="tooltiptext">
+                            <strong>Purpose:</strong> To learn about your current promotional strategies.<br>
+                            <strong>How it Helps:</strong> Integrating promotions into broader marketing campaigns to maximize their impact.
+                        </span>
+                    </span>
+                </label>
+                <textarea id="promotions" name="promotions" placeholder="e.g., Seasonal discounts, referral bonuses..."></textarea>
+            </div>
+            <div class="button-group">
+                <button type="button" class="prev-btn">Previous</button>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Step 12 -->
+        <div class="form-step">
+            <div class="form-group">
+                <label for="social-media">12. Have you used social media or other online platforms to promote your services? If so, which ones?
+                    <span class="tooltip">
+                        <span class="tooltiptext">
+                            <strong>Purpose:</strong> To assess your digital presence and online marketing efforts.<br>
+                            <strong>How it Helps:</strong> Identifying strengths and gaps to develop a more robust digital marketing strategy.
+                        </span>
+                    </span>
+                </label>
+                <textarea id="social-media" name="social-media" placeholder="e.g., Instagram, Facebook, a personal website..."></textarea>
+            </div>
+            <div class="button-group">
+                <button type="button" class="prev-btn">Previous</button>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Step 13 -->
+        <div class="form-step">
+            <div class="form-group">
+                <label for="future">13. Where do you see your lawn care business in the next year?
+                    <span class="tooltip">
+                        <span class="tooltiptext">
+                            <strong>Purpose:</strong> To understand your growth aspirations and future goals.<br>
+                            <strong>How it Helps:</strong> Aligning marketing strategies with your expansion objectives for forward-thinking campaigns.
+                        </span>
+                    </span>
+                </label>
+                <textarea id="future" name="future" placeholder="e.g., Expanding client base, adding new services..."></textarea>
+            </div>
+            <div class="button-group">
+                <button type="button" class="prev-btn">Previous</button>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Step 14 -->
+        <div class="form-step">
+            <div class="form-group">
+                <label for="new-services">14. Are there any new services you’d like to offer in the future?
+                    <span class="tooltip">
+                        <span class="tooltiptext">
+                            <strong>Purpose:</strong> To explore potential areas for business expansion and diversification.<br>
+                            <strong>How it Helps:</strong> Planning for future services allows for effective integration into marketing campaigns, attracting a broader customer base.
+                        </span>
+                    </span>
+                </label>
+                <textarea id="new-services" name="new-services" placeholder="e.g., Landscaping, seasonal clean-ups..."></textarea>
+            </div>
+            <div class="button-group">
+                <button type="button" class="prev-btn">Previous</button>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Step 15 -->
+        <div class="form-step">
+            <div class="form-group">
+                <label for="style">15. Do you have a particular style or approach to lawn care?
+                    <span class="tooltip">
+                        <span class="tooltiptext">
+                            <strong>Purpose:</strong> To capture your unique methodology or philosophy in your services.<br>
+                            <strong>How it Helps:</strong> Showcasing a distinctive style differentiates your services, making your marketing messages more unique and appealing.
+                        </span>
+                    </span>
+                </label>
+                <textarea id="style" name="style" placeholder="e.g., Sustainable practices, meticulous mowing techniques..."></textarea>
+            </div>
+            <div class="button-group">
+                <button type="button" class="prev-btn">Previous</button>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Step 16 -->
+        <div class="form-step">
+            <div class="form-group">
+                <label for="branding">16. Are there any colors, themes, or symbols you associate with your business?
+                    <span class="tooltip">
+                        <span class="tooltiptext">
+                            <strong>Purpose:</strong> To gather branding preferences that can inform marketing materials and visual identity.<br>
+                            <strong>How it Helps:</strong> Consistent branding elements enhance brand recognition and cohesiveness in marketing materials.
+                        </span>
+                    </span>
+                </label>
+                <textarea id="branding" name="branding" placeholder="e.g., Green and white colors, leaf symbol..."></textarea>
+                <p class="note">If you have a brand logo, please email it to <a href="mailto:michael.4412@yahoo.com">michael.4412@yahoo.com</a>.</p>
+            </div>
+            <div class="button-group">
+                <button type="button" class="prev-btn">Previous</button>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Step 17 -->
+        <div class="form-step">
+            <div class="form-group">
+                <label for="eco-friendly">17. Do you use any special equipment or eco-friendly practices?
+                    <span class="tooltip">
+                        <span class="tooltiptext">
+                            <strong>Purpose:</strong> To highlight any sustainable or advanced tools and methods that enhance service quality.<br>
+                            <strong>How it Helps:</strong> Promoting eco-friendly practices attracts environmentally conscious customers and positions your business as responsible and modern.
+                        </span>
+                    </span>
+                </label>
+                <textarea id="eco-friendly" name="eco-friendly" placeholder="e.g., Electric mowers, organic fertilizers..."></textarea>
+            </div>
+            <div class="button-group">
+                <button type="button" class="prev-btn">Previous</button>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Step 18 -->
+        <div class="form-step">
+            <div class="form-group">
+                <label for="challenges">18. What challenges have you faced in running your lawn care business, and how did you overcome them?
+                    <span class="tooltip">
+                        <span class="tooltiptext">
+                            <strong>Purpose:</strong> To identify pain points and successful strategies, providing insights for improvement.<br>
+                            <strong>How it Helps:</strong> Addressing and overcoming challenges in marketing narratives builds trust and showcases problem-solving capabilities.
+                        </span>
+                    </span>
+                </label>
+                <textarea id="challenges" name="challenges" placeholder="e.g., Managing busy seasons, handling client expectations..."></textarea>
+            </div>
+            <div class="button-group">
+                <button type="button" class="prev-btn">Previous</button>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Step 19 -->
+        <div class="form-step">
+            <div class="form-group">
+                <label for="motivation-busy">19. How do you stay motivated during the busy summer months?
+                    <span class="tooltip">
+                        <span class="tooltiptext">
+                            <strong>Purpose:</strong> To understand your resilience and strategies for maintaining productivity.<br>
+                            <strong>How it Helps:</strong> Highlighting motivational strategies humanizes your brand and showcases dedication.
+                        </span>
+                    </span>
+                </label>
+                <textarea id="motivation-busy" name="motivation-busy" placeholder="e.g., Enjoying long days outdoors, pride in community..."></textarea>
+            </div>
+            <div class="button-group">
+                <button type="button" class="prev-btn">Previous</button>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Step 20 -->
+        <div class="form-step">
+            <div class="form-group">
+                <label for="memorable">20. Do you have any funny or memorable experiences from working with clients?
+                    <span class="tooltip">
+                        <span class="tooltiptext">
+                            <strong>Purpose:</strong> To add a personal touch and gather engaging stories that can humanize your brand.<br>
+                            <strong>How it Helps:</strong> Sharing memorable client experiences makes marketing content more relatable and enhances brand personality.
+                        </span>
+                    </span>
+                </label>
+                <textarea id="memorable" name="memorable" placeholder="e.g., A client’s surprise party setup..."></textarea>
+            </div>
+            <div class="button-group">
+                <button type="button" class="prev-btn">Previous</button>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Step 21 -->
+        <div class="form-step">
+            <div class="form-group">
+                <label for="favorite-tool">21. What’s your favorite tool or piece of equipment for lawn care?
+                    <span class="tooltip">
+                        <span class="tooltiptext">
+                            <strong>Purpose:</strong> To learn about preferred tools that contribute to service quality and efficiency.<br>
+                            <strong>How it Helps:</strong> Showcasing favorite tools highlights the quality and professionalism of your services.
+                        </span>
+                    </span>
+                </label>
+                <input type="text" id="favorite-tool" name="favorite-tool" placeholder="e.g., My trusty mower">
+            </div>
+            <div class="button-group">
+                <button type="button" class="prev-btn">Previous</button>
+                <button type="button" class="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Step 22 -->
+        <div class="form-step">
+            <div class="form-group">
+                <label for="additional-service">22. If you could offer one additional service to your clients, what would it be and why?
+                    <span class="tooltip">
+                        <span class="tooltiptext">
+                            <strong>Purpose:</strong> To explore opportunities for expanding service offerings based on client interest.<br>
+                            <strong>How it Helps:</strong> Planning and integrating new services into marketing campaigns meets customer needs and drives business growth.
+                        </span>
+                    </span>
+                </label>
+                <textarea id="additional-service" name="additional-service" placeholder="e.g., Garden design services to enhance their yards..."></textarea>
+            </div>
+            <div class="button-group">
+                <button type="button" class="prev-btn">Previous</button>
+                <button type="submit" class="submit-btn">Submit</button>
+            </div>
+        </div>
+        
+    </form>
+</div>
+
+<!-- JavaScript for Interactivity -->
+<script>
+    const form = document.getElementById('questionnaire-form');
+    const progress = document.getElementById('progress');
+    const formSteps = Array.from(document.querySelectorAll('.form-step'));
+    const nextBtns = Array.from(document.querySelectorAll('.next-btn'));
+    const prevBtns = Array.from(document.querySelectorAll('.prev-btn'));
+    let currentStep = 0;
+
+    // Initialize
+    updateProgressBar();
+
+    // Next Button Click
+    nextBtns.forEach(button => {
+        button.addEventListener('click', () => {
+            // Validate required fields in the current step
+            const currentFormStep = formSteps[currentStep];
+            const requiredFields = currentFormStep.querySelectorAll('textarea[required], input[required]');
+            let allFilled = true;
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    allFilled = false;
+                    field.style.borderColor = 'red';
+                } else {
+                    field.style.borderColor = '#388e3c';
+                }
+            });
+            if (!allFilled) {
+                alert('Please fill out all required fields before proceeding.');
+                return;
+            }
+
+            if (currentStep < formSteps.length - 1) {
+                formSteps[currentStep].classList.remove('active');
+                currentStep++;
+                formSteps[currentStep].classList.add('active');
+                updateProgressBar();
+            }
+        });
+    });
+
+    // Previous Button Click
+    prevBtns.forEach(button => {
+        button.addEventListener('click', () => {
+            if (currentStep > 0) {
+                formSteps[currentStep].classList.remove('active');
+                currentStep--;
+                formSteps[currentStep].classList.add('active');
+                updateProgressBar();
+            }
+        });
+    });
+
+    // Update Progress Bar
+    function updateProgressBar() {
+        const percentage = ((currentStep) / (formSteps.length - 1)) * 100;
+        progress.style.width = `${percentage}%`;
+    }
+
+    // Form Submission Confirmation
+    form.addEventListener('submit', function(event) {
+        alert('Thank you for completing the questionnaire! We appreciate your time.');
+    });
+</script>
+
+</body>
+</html>
